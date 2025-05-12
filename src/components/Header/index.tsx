@@ -1,15 +1,9 @@
-"use client";
-
 import React from "react";
-import Select, { SelectOption } from "@/components/common/select";
+import { headers } from "next/headers";
 import { getBuildings } from "@/app/actions";
 import type { Buildings } from "@/db";
-import { SelectBuildings } from "@/components/SelectBuildings";
-import { usePathname } from "next/navigation";
-
-interface HeaderProps {
-  title?: string;
-}
+import type { SelectOption } from "@/components/common/select";
+import BuildingSelector from "./BuildingSelector";
 
 const getPageTitle = (pathname: string) => {
   switch (pathname) {
@@ -30,49 +24,27 @@ const getPageTitle = (pathname: string) => {
   }
 };
 
-export default async function Header({ title }: HeaderProps) {
-  const pathname = usePathname();
-  // Fetch buildings data
+export default async function Header() {
+  const headersList = headers();
+  const pathname = headersList.get("x-pathname") || "/";
   let buildingOptions: SelectOption[] = [];
 
   try {
     const buildingsData = await getBuildings();
-
-    // Transform buildings data to match SelectOption type
     buildingOptions = buildingsData.map((building: Buildings) => ({
       id: building.id,
       label: building.name,
       description: building.address,
     }));
-  } catch (error) {
-    console.error("Error fetching buildings:", error);
-    // Return a simple header without the select if there's an error
-    return (
-      <header className="sticky top-0 z-40">
-        <div className="flex justify-between items-start">
-          <h1 className="text-[28px] text-gray-700">
-            {getPageTitle(pathname)}
-          </h1>
-          <div className="flex items-center">
-            <p className="text-red-600 mr-4">Error loading buildings</p>
-            <SelectBuildings
-              buildings={[{ id: 0, label: "Loading failed" }]}
-              disabled={true}
-            />
-          </div>
-        </div>
-      </header>
-    );
+  } catch (err) {
+    console.error("Error fetching buildings:", err);
   }
 
-  // Only render the BuildingSelect if we have buildings
   return (
     <header className="sticky top-0 z-40">
       <div className="flex justify-between items-start">
         <h1 className="text-[28px] text-gray-700">{getPageTitle(pathname)}</h1>
-        {buildingOptions.length > 0 && (
-          <SelectBuildings buildings={buildingOptions} />
-        )}
+        <BuildingSelector initialBuildings={buildingOptions} />
       </div>
     </header>
   );

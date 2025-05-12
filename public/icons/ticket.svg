@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20">
+  <g id="Ticket" transform="translate(-1231 -111)">
+    <path id="Icon" d="M9,0a2,2,0,0,1,1.5.677l7,7a2,2,0,0,1-.177,2.823l-7,7a2,2,0,0,1-2.646,0l-7-7A2,2,0,0,1,0,9V4A4,4,0,0,1,4,0Z" transform="translate(1232 112)" fill="none" stroke="#545f71" stroke-width="2"/>
+    <path id="Icon-2" data-name="Icon" d="M4,4h.01" transform="translate(1232 112)" fill="none" stroke="#545f71" stroke-width="2"/>
+  </g>
+</svg>

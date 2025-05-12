@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+  <g id="Notifications" transform="translate(-1229 -39)">
+    <g id="Top_navigation_bar_Type3" data-name="Top navigation bar/Type3" transform="translate(1229 39)">
+      <path id="Icon" d="M1.4,12.6A2.032,2.032,0,0,0,2,11.158V8A6,6,0,0,1,6,2.341V2a2,2,0,0,1,4,0v.341A6,6,0,0,1,14,8v3.158a2.032,2.032,0,0,0,.6,1.437L16,14H0Z" transform="translate(4 3)" fill="none" stroke="#545f71" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>
+      <path id="Icon-2" data-name="Icon" d="M11,14v1a3,3,0,0,1-6,0V14" transform="translate(4 3)" fill="none" stroke="#545f71" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>
+    </g>
+  </g>
+</svg>

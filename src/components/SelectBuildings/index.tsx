@@ -4,6 +4,8 @@ import Select, { SelectOption } from "@/components/common/select";
 
 interface SelectBuildingsProps {
   buildings: SelectOption[];
+  value: SelectOption;
+  onChange: (building: SelectOption) => void;
   disabled?: boolean;
   placeholder?: string;
   className?: string;
@@ -11,20 +13,18 @@ interface SelectBuildingsProps {
 
 export function SelectBuildings({
   buildings,
+  value,
+  onChange,
   disabled,
   placeholder,
   className,
 }: SelectBuildingsProps) {
-  const [selectedBuilding, setSelectedBuilding] = React.useState<SelectOption>(
-    buildings[0]
-  );
-
   return (
     <Select
       selectId="buildings"
       options={buildings}
-      value={selectedBuilding}
-      onChange={setSelectedBuilding}
+      value={value}
+      onChange={onChange}
       className={className}
       disabled={disabled}
     />

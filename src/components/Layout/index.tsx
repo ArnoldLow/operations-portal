@@ -1,7 +1,7 @@
 import { Suspense } from "react";
 import Header from "@/components/Header";
 import Navigation from "@/components/Nav";
-
+import Slider from "@/components/Slider";
 interface LayoutProps {
   children: React.ReactNode;
 }
@@ -27,6 +27,7 @@ export default function Layout({ children }: LayoutProps) {
               </Suspense>
             </main>
           </div>
+          <Slider className="z-50" />
         </div>
       </div>
     </div>

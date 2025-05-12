@@ -3,6 +3,7 @@
 import Link from "next/link";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
+import Header from "@/components/Header";
 
 interface NavigationItem {
   name: string;
@@ -16,8 +17,28 @@ const navigation: NavigationItem[] = [
   { name: "Check-In", href: "/check-in", icon: "/icons/check-in.svg" },
 ];
 
+const getPageTitle = (pathname: string) => {
+  switch (pathname) {
+    case "/meeting-rooms":
+      return "Meeting Room Bookings";
+    case "/viewings":
+      return "Viewings";
+    case "/":
+      return "Hey, Joe"; // TODO: change to ${username}, mb mock users in db
+    case "/settings":
+      return "Settings";
+    case "/check-in":
+      return "Check In";
+    case "/building":
+      return "Building Management";
+    default:
+      return "Hey, Joe";
+  }
+};
+
 export default function Layout({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
+  const pageTitle = getPageTitle(pathname);
 
   return (
     <div className="flex min-h-screen">
@@ -65,8 +86,18 @@ export default function Layout({ children }: { children: React.ReactNode }) {
         </div>
       </div>
 
-      {/* Main Content */}
-      <main className="flex-1 pl-20">{children}</main>
+      {/* Main content area */}
+      <div className="flex-1 pl-20">
+        <div className="grid grid-cols-[1fr_5rem] min-h-screen relative">
+          {/* Left content area */}
+          <div className="col-span-1">
+            <div className="px-6 md:px-28 py-9">
+              <Header title={pageTitle} />
+            </div>
+            <main className="px-6 md:px-28">{children}</main>
+          </div>
+        </div>
+      </div>
     </div>
   );
 }

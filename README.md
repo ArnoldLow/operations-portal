@@ -19,12 +19,12 @@ bun dev
 npm run db:generate
 npm run db:push
 
+to run the db seed
+npm run db:seed
 
 to inpect the database
 npm run db:studio
 
-to run the db seed
-npm run db:seed
 ```
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.

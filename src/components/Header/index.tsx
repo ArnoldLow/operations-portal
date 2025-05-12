@@ -41,9 +41,11 @@ export default async function Header() {
   }
 
   return (
-    <header className="sticky top-0 z-40">
-      <div className="flex justify-between items-start">
-        <h1 className="text-[28px] text-gray-700">{getPageTitle(pathname)}</h1>
+    <header className="grid grid-cols-1 lg:grid-cols-2 gap-x-24 pt-7 px-6 md:px-28 pb-9">
+      <div className="flex items-center">
+        <h1 className="text-2xl text-gray-600">{getPageTitle(pathname)}</h1>
+      </div>
+      <div className="flex items-center">
         <BuildingSelector initialBuildings={buildingOptions} />
       </div>
     </header>

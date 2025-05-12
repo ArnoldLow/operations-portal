@@ -1,36 +1,47 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Operations Portal
 
-## Getting Started
+## Project Setup
 
-First, run the development server:
+This project uses SQLite with Drizzle ORM. Follow these steps to set up your local database:
+
+1. Install dependencies:
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+npm install # Install Dependencies
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+2. Set up the database:
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+```bash
+npm run db:generate   # Generate SQL migrations
+npm run db:push      # Apply migrations to create database
+npm run db:seed      # Add initial seed data
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+3. (Optional) View database:
 
-## Learn More
+```bash
+npm run db:studio    # Opens Drizzle Studio to view/manage data
+```
 
-To learn more about Next.js, take a look at the following resources:
+4. Start Development Server:
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+```bash
+npm run dev    # Starts Next.js development server on http://localhost:3000 by default
+```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+### Available Commands
 
-## Deploy on Vercel
+#### Database Commands
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+- `npm run db:generate` - Generate new migrations when schema changes
+- `npm run db:push` - Apply pending migrations to the database
+- `npm run db:seed` - Populate database with initial data
+- `npm run db:studio` - Open Drizzle Studio UI to view/manage data
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+#### Application Commands
+
+- `npm run dev` - Start Next.js development server (http://localhost:3000)
+- `npm run build` - Build the application for production
+- `npm run start` - Start the production server
+- `npm run lint` - Run ESLint to check code quality

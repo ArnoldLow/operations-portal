@@ -69,8 +69,12 @@ export default function Select({
     disabled,
   });
 
-  useFocusTrap(isOpen, containerRef, closeSelect);
+  useFocusTrap(isOpen, containerRef, closeSelect, {
+    focusElementSelector: 'li[role="option"]',
+    initialFocus: false, // false as we need special timing for select options
+  });
 
+  // Keep this useEffect to handle focus after the listbox is rendered
   useEffect(() => {
     if (isOpen && listboxRef.current) {
       const firstOption =

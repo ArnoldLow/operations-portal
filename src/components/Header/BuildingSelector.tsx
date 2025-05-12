@@ -38,13 +38,7 @@ export default function BuildingSelector({
         );
         if (found) {
           setSelectedBuilding(found);
-        } else {
-          setSelectedBuilding(initialBuildings[0]);
-          localStorage.setItem(STORAGE_KEY, initialBuildings[0].id.toString());
         }
-      } else {
-        setSelectedBuilding(initialBuildings[0]);
-        localStorage.setItem(STORAGE_KEY, initialBuildings[0].id.toString());
       }
     } else {
       setIsLoading(true);
@@ -70,7 +64,7 @@ export default function BuildingSelector({
     );
   }
 
-  if (isLoading || !selectedBuilding) {
+  if (isLoading) {
     return (
       <SelectBuildings
         buildings={[LOADING_OPTION]}
@@ -84,8 +78,9 @@ export default function BuildingSelector({
   return (
     <SelectBuildings
       buildings={buildings}
-      value={selectedBuilding}
+      value={selectedBuilding || undefined}
       onChange={handleBuildingChange}
+      placeholder="Select a building..."
     />
   );
 }

@@ -4,7 +4,7 @@ import Select, { SelectOption } from "@/components/common/select";
 
 interface SelectBuildingsProps {
   buildings: SelectOption[];
-  value: SelectOption;
+  value?: SelectOption;
   onChange: (building: SelectOption) => void;
   disabled?: boolean;
   placeholder?: string;
@@ -27,6 +27,7 @@ export function SelectBuildings({
       onChange={onChange}
       className={className}
       disabled={disabled}
+      placeholder={placeholder}
     />
   );
 }

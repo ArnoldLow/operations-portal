@@ -24,7 +24,7 @@ export interface SelectOption {
 
 export interface SelectProps {
   options: SelectOption[];
-  value: SelectOption;
+  value?: SelectOption;
   onChange: (value: SelectOption) => void;
   selectId: string;
   error?: string;
@@ -32,6 +32,7 @@ export interface SelectProps {
   required?: boolean;
   className?: string;
   icon?: IconComponent;
+  placeholder?: string;
 }
 
 export default function Select({
@@ -44,6 +45,7 @@ export default function Select({
   required = false,
   className = "",
   icon: Icon,
+  placeholder,
 }: SelectProps) {
   const containerRef = useRef<HTMLDivElement>(null);
   const listboxRef = useRef<HTMLUListElement>(null);
@@ -129,7 +131,9 @@ export default function Select({
         onKeyDown={handleKeyDown}
       >
         <span className="flex items-center">
-          <span className="block truncate">{value.label}</span>
+          <span className={`block truncate ${!value ? "text-gray-500" : ""}`}>
+            {value ? value.label : placeholder}
+          </span>
         </span>
       </button>
 
@@ -153,12 +157,12 @@ export default function Select({
               key={option.id}
               id={`${id}-option-${index}`}
               role="option"
-              aria-selected={option.id === value.id}
+              aria-selected={value?.id === option.id}
               tabIndex={0}
               className={`
                 cursor-pointer select-none relative py-2 pl-3 pr-9
                 ${highlightedIndex === index ? "bg-gray-100" : ""}
-                ${option.id === value.id ? "text-gray-900" : "text-gray-700"}
+                ${value?.id === option.id ? "text-gray-900" : "text-gray-700"}
                 hover:bg-gray-100 focus:outline-none focus:bg-gray-100
               `}
               onClick={(e) => {

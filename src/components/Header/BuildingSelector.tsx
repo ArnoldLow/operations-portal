@@ -6,6 +6,7 @@ import type { SelectOption } from "@/components/common/select";
 
 interface BuildingSelectorProps {
   initialBuildings: SelectOption[];
+  className?: string;
 }
 
 const STORAGE_KEY = "selectedBuilding";
@@ -15,6 +16,7 @@ const ERROR_OPTION: SelectOption = { id: 0, label: "Loading failed" };
 
 export default function BuildingSelector({
   initialBuildings,
+  className,
 }: BuildingSelectorProps) {
   const [isLoading, setIsLoading] = useState(initialBuildings.length === 0);
   const [error, setError] = useState(false);
@@ -52,15 +54,13 @@ export default function BuildingSelector({
 
   if (error) {
     return (
-      <div className="flex items-center">
-        <p className="text-red-600 mr-4">Error loading buildings</p>
-        <SelectBuildings
-          buildings={[ERROR_OPTION]}
-          value={ERROR_OPTION}
-          onChange={() => {}}
-          disabled={true}
-        />
-      </div>
+      <SelectBuildings
+        buildings={[ERROR_OPTION]}
+        value={ERROR_OPTION}
+        onChange={() => {}}
+        disabled={true}
+        className={className}
+      />
     );
   }
 
@@ -71,6 +71,7 @@ export default function BuildingSelector({
         value={LOADING_OPTION}
         onChange={() => {}}
         disabled={true}
+        className={className}
       />
     );
   }
@@ -80,7 +81,8 @@ export default function BuildingSelector({
       buildings={buildings}
       value={selectedBuilding || undefined}
       onChange={handleBuildingChange}
-      placeholder="Select a building..."
+      placeholder="Select a building"
+      className={className}
     />
   );
 }

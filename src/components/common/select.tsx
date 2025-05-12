@@ -43,7 +43,7 @@ export default function Select({
   error,
   disabled = false,
   required = false,
-  className = "",
+  className,
   icon: Icon,
   placeholder,
 }: SelectProps) {
@@ -103,7 +103,7 @@ export default function Select({
   return (
     <div
       ref={containerRef}
-      className={`relative ${className}`}
+      className={`relative w-full ${className}`}
       role="combobox"
       aria-haspopup="listbox"
       aria-expanded={isOpen}
@@ -122,7 +122,7 @@ export default function Select({
         disabled={disabled}
         tabIndex={isOpen ? -1 : 0}
         className={`
-          w-full flex items-center justify-between px-3 py-2 text-left
+          w-full h-11 flex items-center justify-between px-3 py-2 text-left
           border rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500
           ${error ? "border-red-300" : "border-gray-300"}
           ${

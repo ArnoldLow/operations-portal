@@ -25,7 +25,7 @@ const config: Config = {
           gray: "#545F71",
         },
         white: {
-          DEFAULT: "#FFFFFF",
+          default: "#FFFFFF",
           shell: "#F9F9F9",
         },
       },

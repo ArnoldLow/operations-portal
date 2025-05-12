@@ -55,7 +55,7 @@ export default function Slider({ className }: SliderProps) {
       {/* Content Overlay when open */}
       {activePanel !== ActivePanel.NONE && (
         <div
-          className="fixed inset-0 right-[500px] bg-white/50 transition-opacity z-[998]"
+          className="fixed inset-0 bg-black/50 transition-opacity z-[998]"
           aria-hidden="true"
           onClick={() => setActivePanel(ActivePanel.NONE)}
         />
@@ -69,8 +69,12 @@ export default function Slider({ className }: SliderProps) {
           className={`
             fixed right-20 top-0 bottom-0 min-h-screen
             transition-all duration-300 ease-in-out 
-            ${activePanel !== ActivePanel.NONE ? "w-[400px] shadow-2xl" : "w-0"}
-            bg-white border-l border-gray-200 overflow-hidden
+            ${
+              activePanel !== ActivePanel.NONE
+                ? "w-[413px] shadow-2xl border-l border-gray-200"
+                : "w-0"
+            }
+            bg-white-shell overflow-hidden rounded-l-2xl
           `}
           role="dialog"
           aria-modal="true"
@@ -90,9 +94,17 @@ export default function Slider({ className }: SliderProps) {
         </div>
 
         {/* Right column */}
-        <div className="fixed right-0 top-0 bottom-0 min-h-screen w-20 border-l border-gray-200 bg-white flex flex-col items-center py-4 space-y-4">
+        <div className="fixed right-0 top-0 bottom-0 min-h-screen w-20 border-l-2 border-stone bg-white-shell flex flex-col items-center py-4 space-y-4">
           <button
-            className="w-12 h-12 flex items-center justify-center border border-gray-200 rounded-lg hover:bg-gray-50 transition-colors"
+            className={`
+              w-12 h-12 flex items-center justify-center rounded-full
+              transition-all duration-200
+              ${
+                activePanel === ActivePanel.NOTIFICATIONS
+                  ? "border border-black bg-beige-light"
+                  : "hover:border hover:border-black hover:bg-beige-light"
+              }
+            `}
             onClick={() => handlePanelToggle(ActivePanel.NOTIFICATIONS)}
             aria-label="Notifications"
             aria-expanded={activePanel === ActivePanel.NOTIFICATIONS}
@@ -100,15 +112,23 @@ export default function Slider({ className }: SliderProps) {
           >
             <Image
               src="/icons/notifications.svg"
-              width={20}
-              height={20}
+              width={24}
+              height={24}
               alt=""
-              className="opacity-60 hover:opacity-100 transition-opacity"
+              className="transition-opacity text-navy-grey"
               aria-hidden="true"
             />
           </button>
           <button
-            className="w-12 h-12 flex items-center justify-center border border-gray-200 rounded-lg hover:bg-gray-50 transition-colors"
+            className={`
+              w-12 h-12 flex items-center justify-center rounded-full
+              transition-all duration-200
+              ${
+                activePanel === ActivePanel.TICKETS
+                  ? "border border-gray-200 bg-beige-light"
+                  : "hover:border hover:border-gray-200 hover:bg-beige-light"
+              }
+            `}
             onClick={() => handlePanelToggle(ActivePanel.TICKETS)}
             aria-label="Tickets"
             aria-expanded={activePanel === ActivePanel.TICKETS}
@@ -116,10 +136,10 @@ export default function Slider({ className }: SliderProps) {
           >
             <Image
               src="/icons/ticket.svg"
-              width={20}
-              height={20}
+              width={18}
+              height={18}
               alt=""
-              className="opacity-60 hover:opacity-100 transition-opacity"
+              className="transition-opacity text-navy-grey"
               aria-hidden="true"
             />
           </button>

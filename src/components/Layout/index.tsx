@@ -21,7 +21,7 @@ export default function Layout({ children }: LayoutProps) {
             <Suspense fallback={<div>Loading header...</div>}>
               <Header />
             </Suspense>
-            <main className="px-6 md:px-28">
+            <main>
               <Suspense fallback={<div>Loading content...</div>}>
                 {children}
               </Suspense>

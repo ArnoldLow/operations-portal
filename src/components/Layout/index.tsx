@@ -14,7 +14,7 @@ export default function Layout({ children }: LayoutProps) {
       <div className="flex-1 pl-20">
         <div className="grid grid-cols-[1fr_5rem] min-h-screen relative">
           {/* Left content area */}
-          <div className="col-span-1">
+          <div className="bg-white-shell">
             <Suspense fallback={<div>Loading navigation...</div>}>
               <Navigation />
             </Suspense>

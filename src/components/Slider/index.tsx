@@ -94,10 +94,11 @@ export default function Slider({ className }: SliderProps) {
         </div>
 
         {/* Right column */}
-        <div className="fixed right-0 top-0 bottom-0 min-h-screen w-20 border-l-2 border-stone bg-white-shell flex flex-col items-center py-4 space-y-4">
+        <div className="fixed right-0 top-0 bottom-0 w-20 border-l-2 border-stone bg-white-shell flex flex-col items-center pt-10 space-y-12">
           <button
+            type="button"
             className={`
-              w-12 h-12 flex items-center justify-center rounded-full
+             flex items-center justify-center rounded-full
               transition-all duration-200
               ${
                 activePanel === ActivePanel.NOTIFICATIONS
@@ -114,14 +115,16 @@ export default function Slider({ className }: SliderProps) {
               src="/icons/notifications.svg"
               width={24}
               height={24}
+              priority={true}
               alt=""
               className="transition-opacity text-navy-grey"
               aria-hidden="true"
             />
           </button>
           <button
+            type="button"
             className={`
-              w-12 h-12 flex items-center justify-center rounded-full
+              flex items-center justify-center rounded-full
               transition-all duration-200
               ${
                 activePanel === ActivePanel.TICKETS
@@ -138,6 +141,7 @@ export default function Slider({ className }: SliderProps) {
               src="/icons/ticket.svg"
               width={18}
               height={18}
+              priority={true}
               alt=""
               className="transition-opacity text-navy-grey"
               aria-hidden="true"

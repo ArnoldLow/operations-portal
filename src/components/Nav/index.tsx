@@ -8,64 +8,108 @@ interface NavigationItem {
   name: string;
   href: string;
   icon: string;
+  iconWidth: number;
+  iconHeight: number;
 }
 
 const navigation: NavigationItem[] = [
-  { name: "Dashboard", href: "/", icon: "/icons/icon.svg" },
-  { name: "Calendar", href: "/calendar", icon: "/icons/calendar.svg" },
-  { name: "Check-In", href: "/check-in", icon: "/icons/check-in.svg" },
+  {
+    name: "Dashboard",
+    href: "/",
+    icon: "/icons/icon.svg",
+    iconWidth: 18,
+    iconHeight: 18,
+  },
+  {
+    name: "Meeting Rooms",
+    href: "/meeting-rooms",
+    icon: "/icons/calendar.svg",
+    iconWidth: 18,
+    iconHeight: 18,
+  },
+  {
+    name: "Check In",
+    href: "/check-in",
+    icon: "/icons/check-in.svg",
+    iconWidth: 24,
+    iconHeight: 24,
+  },
 ];
 
 export default function Navigation() {
   const pathname = usePathname();
 
   return (
-    <nav className="fixed left-0 top-0 bottom-0 w-20 bg-white border-r border-gray-200">
-      <div className="flex flex-col items-center h-full py-6">
-        {/* Logo */}
-        <Link href="/" className="mb-8">
-          <Image
-            src="/icons/logo.svg"
-            alt="Logo"
-            width={32}
-            height={32}
-            priority
-          />
-        </Link>
-        <div className="flex-1 flex flex-col items-center space-y-4">
-          {navigation.map((item) => (
-            <Link
-              key={item.name}
-              href={item.href}
-              className={`p-2 rounded-lg hover:bg-gray-100 ${
-                pathname === item.href ? "bg-gray-100" : ""
-              }`}
-            >
-              <Image
-                src={item.icon}
-                alt={item.name}
-                width={24}
-                height={24}
-                priority
-              />
-            </Link>
-          ))}
-        </div>
-
-        <Link
-          href="/settings"
-          className={`p-2 rounded-lg hover:bg-gray-100 ${
-            pathname === "/settings" ? "bg-gray-100" : ""
+    <nav className="fixed left-0 top-0 bottom-0 w-20 border-r-2 border-stone bg-white-shell flex flex-col items-center pt-8">
+      {/* Branding */}
+      <Link href="/" className="flex items-center justify-center mb-11">
+        <Image
+          src="/icons/FORA_logomarque_black_1_2x.png"
+          alt="Logo"
+          width={32}
+          height={32}
+          priority
+          className="w-8 h-8"
+        />
+      </Link>
+      {/* Navigation items */}
+      <div className="flex flex-col items-center space-y-11">
+        {navigation.map((item) => (
+          <Link
+            key={item.name}
+            href={item.href}
+            className={`flex items-center justify-center rounded-lg hover:bg-gray-100 transition-colors ${
+              pathname === item.href ? "bg-gray-100" : ""
+            }`}
+            aria-label={item.name}
+          >
+            <Image
+              src={item.icon}
+              alt={item.name}
+              width={item.iconWidth}
+              height={item.iconHeight}
+              priority
+              className="transition-opacity text-navy-grey"
+            />
+          </Link>
+        ))}
+      </div>
+      {/* Bottom aligned buttons */}
+      <div className="mt-auto flex flex-col items-center space-y-11 mb-8">
+        <button
+          onClick={() => console.log("Building button clicked!")}
+          className={`flex items-center justify-center rounded-lg hover:bg-gray-100 transition-colors ${
+            pathname === "/buildings" ? "bg-gray-100" : ""
           }`}
+          aria-label="Buildings"
+          type="button"
         >
           <Image
-            src="/icons/settings.svg"
-            alt="Settings"
+            src="/icons/building.svg"
+            alt="Buildings"
             width={24}
             height={24}
             priority
+            className="transition-opacity text-navy-grey"
           />
-        </Link>
+        </button>
+        <button
+          onClick={() => console.log("Logout button clicked!")}
+          className={`flex items-center justify-center rounded-lg hover:bg-gray-100 transition-colors ${
+            pathname === "/logout" ? "bg-gray-100" : ""
+          }`}
+          aria-label="Logout"
+          type="button"
+        >
+          <Image
+            src="/icons/log-out.svg"
+            alt="Logout"
+            width={18}
+            height={18}
+            priority
+            className="transition-opacity text-navy-grey"
+          />
+        </button>
       </div>
     </nav>
   );

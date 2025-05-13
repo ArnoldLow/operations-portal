@@ -5,15 +5,29 @@ import { desc } from "drizzle-orm";
 import type { Buildings, NewBuildings } from "@/db";
 import { revalidatePath } from "next/cache";
 import { eq } from "drizzle-orm";
+import { z } from "zod";
+
+// Schema for building options
+const BuildingOptionSchema = z.object({
+  id: z.number(),
+  label: z.string(),
+});
+
+const BuildingOptionsSchema = z.array(BuildingOptionSchema);
 
 export async function getBuildings() {
   try {
     const allBuildings = await db
-      .select()
+      .select({
+        id: buildings.id,
+        label: buildings.name,
+      })
       .from(buildings)
-      .orderBy(desc(buildings.createdAt));
+      .orderBy(buildings.name);
 
-    return allBuildings;
+    // Validate the response
+    const validatedBuildings = BuildingOptionsSchema.parse(allBuildings);
+    return validatedBuildings;
   } catch (error) {
     console.error("Error fetching buildings:", error);
     throw new Error("Failed to fetch buildings");

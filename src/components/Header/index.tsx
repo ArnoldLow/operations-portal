@@ -1,9 +1,11 @@
+"use client";
+
 import React from "react";
-import { headers } from "next/headers";
 import { getBuildings } from "@/app/actions";
 import type { Buildings } from "@/db";
 import type { SelectOption } from "@/components/common/select";
 import BuildingSelector from "./BuildingSelector";
+import { usePathname } from "next/navigation";
 
 const getPageTitle = (pathname: string) => {
   switch (pathname) {
@@ -25,8 +27,8 @@ const getPageTitle = (pathname: string) => {
 };
 
 export default async function Header() {
-  const headersList = headers();
-  const pathname = headersList.get("x-pathname") || "/";
+  const pathname = usePathname();
+
   let buildingOptions: SelectOption[] = [];
 
   try {

@@ -2,6 +2,7 @@ import { Suspense } from "react";
 import Header from "@/components/Header";
 import Navigation from "@/components/Nav";
 import Slider from "@/components/Slider";
+
 interface LayoutProps {
   children: React.ReactNode;
 }

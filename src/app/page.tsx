@@ -1,3 +1,4 @@
+import MeetingCard from "@/components/CardMeeting";
 import Layout from "@/components/Layout/index";
 
 export default async function Home() {
@@ -7,11 +8,23 @@ export default async function Home() {
         {/* Meetings Section */}
         <section>
           <h2 className="text-2xl text-gray-600 mb-8">Meetings</h2>
+          <MeetingCard
+            title="Meeting 1"
+            time={new Date()}
+            subtitle="Meeting 1"
+            showQrCode={true}
+          />
         </section>
 
         {/* Viewings Section */}
         <section>
           <h2 className="text-2xl text-gray-600 pt-9 lg:pt-0 mb-8">Viewings</h2>
+          <MeetingCard
+            title="Meeting 2"
+            time={new Date()}
+            subtitle="Meeting 2"
+            showChevron={true}
+          />
         </section>
       </div>
     </Layout>

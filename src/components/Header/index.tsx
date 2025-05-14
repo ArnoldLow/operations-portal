@@ -1,11 +1,11 @@
 import React from "react";
-import { getBuildings } from "@/app/actions";
-import type { Buildings } from "@/db";
+import type { SelectOption } from "@/components/common/select";
 import HeaderContent from "@/components/Header/HeaderContent";
 
-export default async function Header() {
-  // Fetch buildings data server-side
-  const buildingsData = await getBuildings();
+interface HeaderProps {
+  buildingOptions: SelectOption[];
+}
 
-  return <HeaderContent buildingOptions={buildingsData} />;
+export default function Header({ buildingOptions }: HeaderProps) {
+  return <HeaderContent buildingOptions={buildingOptions} />;
 }

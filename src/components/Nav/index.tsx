@@ -49,7 +49,7 @@ export default function Navigation() {
           width={32}
           height={32}
           priority
-          className="w-8 h-8"
+          style={{ width: "32px", height: "32px" }}
         />
       </Link>
       {/* Navigation items */}
@@ -69,7 +69,10 @@ export default function Navigation() {
               width={item.iconWidth}
               height={item.iconHeight}
               priority
-              className="transition-opacity text-navy-grey"
+              style={{
+                width: `${item.iconWidth}px`,
+                height: `${item.iconHeight}px`,
+              }}
             />
           </Link>
         ))}
@@ -90,7 +93,7 @@ export default function Navigation() {
             width={24}
             height={24}
             priority
-            className="transition-opacity text-navy-grey"
+            style={{ width: "24px", height: "24px" }}
           />
         </button>
         <button
@@ -107,7 +110,7 @@ export default function Navigation() {
             width={18}
             height={18}
             priority
-            className="transition-opacity text-navy-grey"
+            style={{ width: "18px", height: "18px" }}
           />
         </button>
       </div>

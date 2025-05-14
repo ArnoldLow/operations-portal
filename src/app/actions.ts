@@ -1,6 +1,12 @@
 "use server";
 
-import { db, buildings, customerForce, BookingType } from "@/db";
+import {
+  db,
+  buildings,
+  customerForce,
+  BookingType,
+  availabilityForce,
+} from "@/db";
 import { eq, and, gte } from "drizzle-orm";
 import { z } from "zod";
 
@@ -185,5 +191,45 @@ export async function getMoves(): Promise<GetMovesResponse> {
     }
     console.error("Error fetching moves:", error);
     throw new Error("Failed to fetch moves");
+  }
+}
+
+// Schema for room response
+const GetRoomResponseSchema = z.object({
+  id: z.number(),
+  roomName: z.string(),
+  capacity: z.number(),
+  cost: z.number(),
+  isAvailable: z.boolean(),
+});
+
+const GetRoomsResponseSchema = z.array(GetRoomResponseSchema);
+
+export type GetRoomResponse = z.infer<typeof GetRoomResponseSchema>;
+export type GetRoomsResponse = z.infer<typeof GetRoomsResponseSchema>;
+
+export async function getRooms(): Promise<GetRoomsResponse> {
+  try {
+    const rooms = await db
+      .select({
+        id: availabilityForce.id,
+        roomName: availabilityForce.roomName,
+        capacity: availabilityForce.capacity,
+        cost: availabilityForce.cost,
+        isAvailable: availabilityForce.isAvailable,
+      })
+      .from(availabilityForce)
+      .orderBy(availabilityForce.roomName);
+
+    // Validate the response
+    const validatedRooms = GetRoomsResponseSchema.parse(rooms);
+    return validatedRooms;
+  } catch (error) {
+    if (error instanceof z.ZodError) {
+      console.error("Validation error fetching rooms:", error.errors);
+      throw new Error("Invalid room data format");
+    }
+    console.error("Error fetching rooms:", error);
+    throw new Error("Failed to fetch rooms");
   }
 }

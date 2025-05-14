@@ -30,7 +30,7 @@ npm run db:studio    # Opens Drizzle Studio to view/manage data
 npm run dev    # Starts Next.js development server on http://localhost:3000 by default
 ```
 
-### Available Commands
+### All Available Commands
 
 #### Database Commands
 
@@ -45,3 +45,7 @@ npm run dev    # Starts Next.js development server on http://localhost:3000 by d
 - `npm run build` - Build the application for production
 - `npm run start` - Start the production server
 - `npm run lint` - Run ESLint to check code quality
+
+#### Database Troubleshooting
+
+- `rm -f src/db/sqlite.db` - If the database is not behaving as expected, drop tables try database commands again

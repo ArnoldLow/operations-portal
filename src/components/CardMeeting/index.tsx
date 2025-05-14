@@ -125,9 +125,9 @@ const MeetingCard = ({
             {roomName} - {companyName}
           </h3>
         )}
-        {startTime && (
+        {(startTime || date) && (
           <p className="text-sm text-gray-600">
-            {formatTimeDisplay(startTime, endTime || startTime, date, showIcon)}
+            {formatTimeDisplay(startTime || 0, endTime || 0, date, showIcon)}
           </p>
         )}
       </div>
@@ -137,6 +137,7 @@ const MeetingCard = ({
           type="button"
           onClick={(e) => {
             console.log("Meeting qrCode", qrCode);
+            e.stopPropagation();
           }}
           className={`focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-blue-500 ${
             showIcon === CardIconEnum.MEETINGS

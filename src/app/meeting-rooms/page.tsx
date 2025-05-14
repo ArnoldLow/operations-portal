@@ -21,7 +21,7 @@ export default function MeetingRoomsPage() {
   return (
     <Layout>
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-x-16 px-6 md:px-28 pb-9">
-        <section className="min-h-screen">
+        <div className="min-h-screen">
           <h2 className="text-2xl text-gray-600 mb-8">Live Availability</h2>
 
           <div className="relative">
@@ -54,7 +54,7 @@ export default function MeetingRoomsPage() {
               </div>
             </div>
           </div>
-        </section>
+        </div>
       </div>
     </Layout>
   );

@@ -48,13 +48,13 @@ function HeaderSkeleton() {
 function ContentSkeleton() {
   return (
     <div className="grid grid-cols-1 lg:grid-cols-2 gap-x-16 px-6 md:px-28 pb-9">
-      <section>
+      <div>
         <div className="h-8 w-48 bg-gray-300 rounded-lg animate-pulse mb-8" />
         <div className="space-y-4">
           <div className="h-10 w-64 bg-gray-300 rounded-lg animate-pulse" />
           <div className="h-32 w-full bg-gray-300 rounded-lg animate-pulse" />
         </div>
-      </section>
+      </div>
     </div>
   );
 }

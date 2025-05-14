@@ -91,7 +91,6 @@ const GetViewingResponseSchema = z.object({
   companyName: z.string(),
   startTime: z.number(),
   date: z.date(),
-  qrCode: z.string(),
 });
 
 const GetViewingsResponseSchema = z.array(GetViewingResponseSchema);
@@ -136,5 +135,55 @@ export async function getViewings(): Promise<GetViewingsResponseSchema> {
     }
     console.error("Error fetching viewings:", error);
     throw new Error("Failed to fetch viewings");
+  }
+}
+
+const GetMoveResponseSchema = z.object({
+  id: z.number(),
+  roomName: z.string(),
+  companyName: z.string(),
+  date: z.date(),
+});
+
+const GetMovesResponseSchema = z.array(GetMoveResponseSchema);
+
+export type GetMoveResponse = z.infer<typeof GetMoveResponseSchema>;
+export type GetMovesResponse = z.infer<typeof GetMovesResponseSchema>;
+
+export async function getMoves(): Promise<GetMovesResponse> {
+  try {
+    // Get today at midnight
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+
+    const moves = await db
+      .select({
+        id: customerForce.id,
+        roomName: customerForce.roomName,
+        companyName: customerForce.companyName,
+        startTime: customerForce.startTime,
+        date: customerForce.date,
+        qrCode: customerForce.qrCode,
+      })
+      .from(customerForce)
+      .where(
+        and(
+          eq(customerForce.bookingType, BookingType.MOVE),
+          gte(customerForce.date, today)
+        )
+      )
+      .limit(2)
+      .orderBy(customerForce.date, customerForce.startTime);
+
+    // Validate the response
+    const validatedMoves = GetMovesResponseSchema.parse(moves);
+    return validatedMoves;
+  } catch (error) {
+    if (error instanceof z.ZodError) {
+      console.error("Validation error fetching moves:", error.errors);
+      throw new Error("Invalid move data format");
+    }
+    console.error("Error fetching moves:", error);
+    throw new Error("Failed to fetch moves");
   }
 }

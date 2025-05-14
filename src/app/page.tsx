@@ -1,5 +1,6 @@
 import MeetingCard from "@/components/CardMeeting";
 import Layout from "@/components/Layout/index";
+import { CardIconEnum } from "@/types/cards";
 
 export default async function Home() {
   return (
@@ -11,8 +12,8 @@ export default async function Home() {
           <MeetingCard
             title="Meeting 1"
             time={new Date()}
-            subtitle="Meeting 1"
-            showQrCode={true}
+            subtitle="Meeting a"
+            showIcon={CardIconEnum.MEETINGS}
           />
         </section>
 
@@ -22,8 +23,8 @@ export default async function Home() {
           <MeetingCard
             title="Meeting 2"
             time={new Date()}
-            subtitle="Meeting 2"
-            showChevron={true}
+            subtitle="Meeting b"
+            showIcon={CardIconEnum.VIEWINGS}
           />
         </section>
       </div>

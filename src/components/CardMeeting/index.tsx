@@ -1,26 +1,56 @@
 "use client";
 
 import React from "react";
+import Image from "next/image";
+import { CardIconEnum } from "@/types/cards";
 
 interface MeetingCardProps {
   title: string;
   time?: Date | { start: Date; end: Date };
   subtitle?: string;
-  showQrCode?: boolean;
-  showChevron?: boolean;
-  onQrCodeClick?: () => void;
-  onChevronClick?: () => void;
+  showIcon?: CardIconEnum;
+  onIconClick?: () => void;
   onClick?: () => void;
 }
+
+const getIconProps = (type: CardIconEnum) => {
+  switch (type) {
+    case CardIconEnum.MEETINGS:
+      return {
+        icon: "/icons/check-in.svg",
+        ariaLabel: "Open QR Code for ",
+        height: 18,
+        width: 18,
+        alt: "Check in icon",
+        styles: "p-4 bg-navy-grey",
+      };
+    case CardIconEnum.VIEWINGS:
+      return {
+        icon: "/icons/ticket.svg",
+        ariaLabel: "View viewing meeting details for ",
+        height: 24,
+        width: 24,
+        alt: "Viewing icon",
+        styles: "",
+      };
+    case CardIconEnum.MOVEINOUT:
+      return {
+        icon: "/icons/ticket.svg",
+        ariaLabel: "View move in and out details for ",
+        height: 24,
+        width: 24,
+        alt: "Move in and out icon",
+        styles: "",
+      };
+  }
+};
 
 const MeetingCard = ({
   title,
   time,
   subtitle,
-  showQrCode = false,
-  showChevron = false,
-  onQrCodeClick,
-  onChevronClick,
+  showIcon,
+  onIconClick,
   onClick,
 }: MeetingCardProps) => {
   return (
@@ -57,37 +87,28 @@ const MeetingCard = ({
         )}
       </div>
 
-      <div
-        className="flex items-center gap-4"
-        role="toolbar"
-        aria-label="Meeting actions"
-      >
-        {showQrCode && (
-          <button
-            onClick={(e) => {
-              e.stopPropagation();
-              onQrCodeClick?.();
-            }}
-            className="p-2 rounded-lg bg-gray-100 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-400 hover:border-4 hover:border-site-beige-light transition-all duration-200 ease-in-out border-4 border-transparent"
-            aria-label="View QR Code for this meeting"
-          >
-            QR
-          </button>
-        )}
-
-        {showChevron && (
-          <button
-            onClick={(e) => {
-              e.stopPropagation();
-              onChevronClick?.();
-            }}
-            className="p-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-400 transition-colors hover:border-4 hover:border-site-beige-light duration-200 ease-in-out border-4 border-transparent"
-            aria-label="View meeting details"
-          >
-            {/* // icon here */}CHEV
-          </button>
-        )}
-      </div>
+      {showIcon && (
+        <button
+          onClick={(e) => {
+            e.stopPropagation();
+            onIconClick?.();
+          }}
+          className={`focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-blue-500 ${
+            showIcon === CardIconEnum.MEETINGS
+              ? "rounded-lg p-4 bg-navy-gray"
+              : ""
+          }`}
+          aria-label={getIconProps(showIcon).ariaLabel + title}
+        >
+          <Image
+            src={getIconProps(showIcon).icon}
+            alt={getIconProps(showIcon).alt}
+            width={getIconProps(showIcon).width}
+            height={getIconProps(showIcon).height}
+            className="text-white-default"
+          />
+        </button>
+      )}
     </div>
   );
 };

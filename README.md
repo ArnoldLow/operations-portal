@@ -48,4 +48,4 @@ npm run dev    # Starts Next.js development server on http://localhost:3000 by d
 
 #### Database Troubleshooting
 
-- `rm -f src/db/sqlite.db` - If the database is not behaving as expected, drop tables try database commands again
+- `rm -f src/db/sqlite.db` - To drop tables and start fresh

@@ -1,5 +1,11 @@
 import { sqliteTable, text, integer } from "drizzle-orm/sqlite-core";
 
+export enum BookingType {
+  MEETING = "meeting",
+  VIEWING = "viewing",
+  MOVE = "move",
+}
+
 export const buildings = sqliteTable("buildings", {
   id: integer("id").primaryKey({ autoIncrement: true }).unique().notNull(),
   name: text("name").notNull(),
@@ -21,6 +27,9 @@ export const customerForce = sqliteTable("customer_force", {
   endTime: integer("end_time").notNull(),
   date: integer("date", { mode: "timestamp" }).notNull(),
   qrCode: text("qr_code").unique().notNull(),
+  bookingType: text("booking_type", {
+    enum: ["meeting", "viewing", "move"],
+  }).notNull(),
   createdAt: integer("created_at", { mode: "timestamp" })
     .notNull()
     .$defaultFn(() => new Date()),

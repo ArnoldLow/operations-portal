@@ -3,13 +3,15 @@
 import React from "react";
 import Image from "next/image";
 import { CardIconEnum } from "@/types/cards";
-
+import { formatMinutesToTime } from "@/helpers/formatMinutesToTime";
 interface MeetingCardProps {
-  title: string;
-  time?: Date | { start: Date; end: Date };
-  subtitle?: string;
+  roomName: string;
+  companyName: string;
+  startTime?: number;
+  endTime?: number;
+  date?: number;
+  qrCode?: string;
   showIcon?: CardIconEnum;
-  onIconClick?: () => void;
   onClick?: () => void;
 }
 
@@ -46,11 +48,13 @@ const getIconProps = (type: CardIconEnum) => {
 };
 
 const MeetingCard = ({
-  title,
-  time,
-  subtitle,
+  roomName,
+  companyName,
+  startTime,
+  endTime,
+  date,
+  qrCode,
   showIcon,
-  onIconClick,
   onClick,
 }: MeetingCardProps) => {
   return (
@@ -68,37 +72,33 @@ const MeetingCard = ({
       tabIndex={onClick ? 0 : -1}
     >
       <div className="flex flex-col gap-1">
-        {title && (
+        {roomName && companyName && (
           <h3
             id="meeting-title"
             className="text-base font-medium text-gray-700"
           >
-            {title}
+            {roomName} - {companyName}
           </h3>
         )}
-        {/* {time && <p className="text-sm text-gray-600">{formatTime(time)}</p>} */}
-        {subtitle && (
-          <p
-            className="text-sm text-gray-600"
-            aria-label={`Additional details: ${subtitle}`}
-          >
-            {subtitle}
+        {startTime && endTime && (
+          <p className="text-sm text-gray-600">
+            {formatMinutesToTime(startTime)} - {formatMinutesToTime(endTime)}
           </p>
         )}
       </div>
 
       {showIcon && (
         <button
+          type="button"
           onClick={(e) => {
-            e.stopPropagation();
-            onIconClick?.();
+            console.log("Meeting qrCode", qrCode);
           }}
           className={`focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-blue-500 ${
             showIcon === CardIconEnum.MEETINGS
               ? "rounded-lg p-4 bg-navy-gray"
               : ""
           }`}
-          aria-label={getIconProps(showIcon).ariaLabel + title}
+          aria-label={getIconProps(showIcon).ariaLabel + roomName}
         >
           <Image
             src={getIconProps(showIcon).icon}

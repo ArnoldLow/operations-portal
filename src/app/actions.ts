@@ -1,27 +1,8 @@
 "use server";
 
 import { db, buildings, customerForce, BookingType } from "@/db";
-import { desc, eq, and, gte } from "drizzle-orm";
-import type { Buildings, NewBuildings, CustomerForce } from "@/db";
-import { revalidatePath } from "next/cache";
+import { eq, and, gte } from "drizzle-orm";
 import { z } from "zod";
-
-const TIME_CONSTRAINTS = {
-  HOURS: {
-    MIN: 0,
-    MAX: 23,
-  },
-  MINUTES: {
-    MIN: 0,
-    MAX: 59,
-  },
-  START_OF_DAY: {
-    HOURS: 0,
-    MINUTES: 0,
-    SECONDS: 0,
-    MILLISECONDS: 0,
-  },
-};
 
 // Schema for building options
 const BuildingOptionSchema = z.object({
@@ -68,30 +49,9 @@ export type MeetingsResponse = z.infer<typeof MeetingsResponseSchema>;
 
 export async function getMeetings(): Promise<MeetingsResponse> {
   try {
-    // debug: all meetings
-    // const allMeetings = await db
-    //   .select({
-    //     id: customerForce.id,
-    //     roomName: customerForce.roomName,
-    //     companyName: customerForce.companyName,
-    //     startTime: customerForce.startTime,
-    //     endTime: customerForce.endTime,
-    //     date: customerForce.date,
-    //     qrCode: customerForce.qrCode,
-    //     bookingType: customerForce.bookingType,
-    //   })
-    //   .from(customerForce);
-
-    // console.log("All meetings:", allMeetings);
-
     // Get today at midnight
     const today = new Date();
     today.setHours(0, 0, 0, 0);
-
-    console.log("Today date for comparison:", {
-      date: today,
-      isoString: today.toISOString(),
-    });
 
     const meetings = await db
       .select({
@@ -110,13 +70,12 @@ export async function getMeetings(): Promise<MeetingsResponse> {
           gte(customerForce.date, today)
         )
       )
+      .limit(6)
       .orderBy(customerForce.date, customerForce.startTime);
-
-    console.log("Filtered meetings:", meetings);
 
     // Validate the response
     const validatedMeetings = MeetingsResponseSchema.parse(meetings);
-    console.log("Validated meetings:", validatedMeetings);
+
     return validatedMeetings;
   } catch (error) {
     if (error instanceof z.ZodError) {

@@ -1,6 +1,7 @@
 import { Suspense } from "react";
 import Layout from "@/components/Layout/index";
 import MeetingsSection from "@/components/MeetingsSection";
+import ViewingsSection from "@/components/ViewingsSection";
 
 export default function Home() {
   return (
@@ -21,16 +22,22 @@ export default function Home() {
           <MeetingsSection />
         </Suspense>
 
-        {/* Viewings Section */}
-        <section>
-          <h2 className="text-2xl text-gray-600 pt-9 lg:pt-0 mb-8">Viewings</h2>
-          {/* <MeetingCard
-            title="Meeting 2"
-            time={new Date()}
-            subtitle="Meeting b"
-            showIcon={CardIconEnum.VIEWINGS}
-          /> */}
-        </section>
+        <Suspense
+          fallback={
+            <section>
+              <h2 className="text-2xl text-gray-600 pt-9 lg:pt-0 mb-8">
+                Viewings
+              </h2>
+              <div className="animate-pulse space-y-4">
+                <div className="h-20 bg-gray-200 rounded-lg" />
+                <div className="h-20 bg-gray-200 rounded-lg" />
+                <div className="h-20 bg-gray-200 rounded-lg" />
+              </div>
+            </section>
+          }
+        >
+          <ViewingsSection />
+        </Suspense>
       </div>
     </Layout>
   );

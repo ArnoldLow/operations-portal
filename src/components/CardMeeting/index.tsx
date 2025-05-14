@@ -4,12 +4,13 @@ import React from "react";
 import Image from "next/image";
 import { CardIconEnum } from "@/types/cards";
 import { formatMinutesToTime } from "@/helpers/formatMinutesToTime";
+
 interface MeetingCardProps {
   roomName: string;
   companyName: string;
   startTime?: number;
   endTime?: number;
-  date?: number;
+  date?: Date;
   qrCode?: string;
   showIcon?: CardIconEnum;
   onClick?: () => void;
@@ -47,6 +48,50 @@ const getIconProps = (type: CardIconEnum) => {
   }
 };
 
+const getOrdinalSuffix = (day: number): string => {
+  if (day > 3 && day < 21) return "th";
+  switch (day % 10) {
+    case 1:
+      return "st";
+    case 2:
+      return "nd";
+    case 3:
+      return "rd";
+    default:
+      return "th";
+  }
+};
+
+const formatDateToFriendly = (date: Date): string => {
+  const day = date.getDate();
+  const dayName = date.toLocaleDateString("en-US", { weekday: "long" });
+  return `${dayName} ${day}${getOrdinalSuffix(day)}`;
+};
+
+const formatTimeDisplay = (
+  startTime: number,
+  endTime: number,
+  date: Date | undefined,
+  type?: CardIconEnum
+) => {
+  if (!date) return formatMinutesToTime(startTime);
+
+  switch (type) {
+    case CardIconEnum.MEETINGS:
+      return `${formatMinutesToTime(startTime)} - ${formatMinutesToTime(
+        endTime
+      )}`;
+    case CardIconEnum.VIEWINGS:
+      return `${formatDateToFriendly(date)} @ ${formatMinutesToTime(
+        startTime
+      )}`;
+    case CardIconEnum.MOVEINOUT:
+      return formatDateToFriendly(date);
+    default:
+      return formatMinutesToTime(startTime);
+  }
+};
+
 const MeetingCard = ({
   roomName,
   companyName,
@@ -80,9 +125,9 @@ const MeetingCard = ({
             {roomName} - {companyName}
           </h3>
         )}
-        {startTime && endTime && (
+        {startTime && (
           <p className="text-sm text-gray-600">
-            {formatMinutesToTime(startTime)} - {formatMinutesToTime(endTime)}
+            {formatTimeDisplay(startTime, endTime || startTime, date, showIcon)}
           </p>
         )}
       </div>

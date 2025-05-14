@@ -3,10 +3,10 @@
 import React from "react";
 import MeetingCard from "@/components/CardMeeting";
 import { CardIconEnum } from "@/types/cards";
-import type { MeetingsResponse } from "@/app/actions";
+import type { GetMeetingsResponse } from "@/app/actions";
 
 interface MeetingsListProps {
-  meetings: MeetingsResponse;
+  meetings: GetMeetingsResponse;
 }
 
 export default function MeetingsList({ meetings }: MeetingsListProps) {

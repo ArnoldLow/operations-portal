@@ -32,22 +32,21 @@ export async function getBuildings() {
 }
 
 // Schema for meetings response
-const MeetingResponseSchema = z.object({
+const GetMeetingResponseSchema = z.object({
   id: z.number(),
   roomName: z.string(),
   companyName: z.string(),
   startTime: z.number(),
   endTime: z.number(),
-  date: z.date(),
   qrCode: z.string(),
 });
 
-const MeetingsResponseSchema = z.array(MeetingResponseSchema);
+const GetMeetingsResponseSchema = z.array(GetMeetingResponseSchema);
 
-export type MeetingResponse = z.infer<typeof MeetingResponseSchema>;
-export type MeetingsResponse = z.infer<typeof MeetingsResponseSchema>;
+export type GetMeetingResponse = z.infer<typeof GetMeetingResponseSchema>;
+export type GetMeetingsResponse = z.infer<typeof GetMeetingsResponseSchema>;
 
-export async function getMeetings(): Promise<MeetingsResponse> {
+export async function getMeetings(): Promise<GetMeetingsResponse> {
   try {
     // Get today at midnight
     const today = new Date();
@@ -60,7 +59,6 @@ export async function getMeetings(): Promise<MeetingsResponse> {
         companyName: customerForce.companyName,
         startTime: customerForce.startTime,
         endTime: customerForce.endTime,
-        date: customerForce.date,
         qrCode: customerForce.qrCode,
       })
       .from(customerForce)
@@ -74,7 +72,7 @@ export async function getMeetings(): Promise<MeetingsResponse> {
       .orderBy(customerForce.date, customerForce.startTime);
 
     // Validate the response
-    const validatedMeetings = MeetingsResponseSchema.parse(meetings);
+    const validatedMeetings = GetMeetingsResponseSchema.parse(meetings);
 
     return validatedMeetings;
   } catch (error) {
@@ -84,5 +82,59 @@ export async function getMeetings(): Promise<MeetingsResponse> {
     }
     console.error("Error fetching meetings:", error);
     throw new Error("Failed to fetch meetings");
+  }
+}
+
+const GetViewingResponseSchema = z.object({
+  id: z.number(),
+  roomName: z.string(),
+  companyName: z.string(),
+  startTime: z.number(),
+  date: z.date(),
+  qrCode: z.string(),
+});
+
+const GetViewingsResponseSchema = z.array(GetViewingResponseSchema);
+
+export type GetViewingResponseSchema = z.infer<typeof GetViewingResponseSchema>;
+export type GetViewingsResponseSchema = z.infer<
+  typeof GetViewingsResponseSchema
+>;
+
+export async function getViewings(): Promise<GetViewingsResponseSchema> {
+  try {
+    // Get today at midnight
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+
+    const viewings = await db
+      .select({
+        id: customerForce.id,
+        roomName: customerForce.roomName,
+        companyName: customerForce.companyName,
+        startTime: customerForce.startTime,
+        date: customerForce.date,
+        qrCode: customerForce.qrCode,
+      })
+      .from(customerForce)
+      .where(
+        and(
+          eq(customerForce.bookingType, BookingType.VIEWING),
+          gte(customerForce.date, today)
+        )
+      )
+      .limit(3)
+      .orderBy(customerForce.date, customerForce.startTime);
+
+    // Validate the response using the same schema as meetings
+    const validatedViewings = GetViewingsResponseSchema.parse(viewings);
+    return validatedViewings;
+  } catch (error) {
+    if (error instanceof z.ZodError) {
+      console.error("Validation error fetching viewings:", error.errors);
+      throw new Error("Invalid viewing data format");
+    }
+    console.error("Error fetching viewings:", error);
+    throw new Error("Failed to fetch viewings");
   }
 }

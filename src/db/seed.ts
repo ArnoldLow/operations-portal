@@ -1,6 +1,15 @@
 import { db } from "./index";
-import { buildings, customerForce, BookingType } from "./schema";
-import type { NewBuildings, NewCustomerForce } from "./schema";
+import {
+  buildings,
+  customerForce,
+  BookingType,
+  availabilityForce,
+} from "./schema";
+import type {
+  NewAvailabilityForce,
+  NewBuildings,
+  NewCustomerForce,
+} from "./schema";
 
 // Helper function to convert time string (HH:mm) to minutes since midnight
 function timeToMinutes(time: string): number {
@@ -196,12 +205,132 @@ async function seed() {
       },
     ];
 
-    // meeting x3
-    // move x2
-    // viewing x3
+    // Define availability force seed data
+    const availabilityData: NewAvailabilityForce[] = [
+      {
+        roomName: "MR.0Y",
+        capacity: 4,
+        cost: 20,
+        isAvailable: true,
+      },
+      {
+        roomName: "MR.1Y",
+        capacity: 8,
+        cost: 35,
+        isAvailable: true,
+      },
+      {
+        roomName: "MR.2Y",
+        capacity: 12,
+        cost: 50,
+        isAvailable: false,
+      },
+      {
+        roomName: "MR.3Y",
+        capacity: 6,
+        cost: 25,
+        isAvailable: true,
+      },
+      {
+        roomName: "MR.4Y",
+        capacity: 20,
+        cost: 75,
+        isAvailable: true,
+      },
+      {
+        roomName: "MR.5Y",
+        capacity: 10,
+        cost: 45,
+        isAvailable: true,
+      },
+      {
+        roomName: "MR.6Y",
+        capacity: 15,
+        cost: 60,
+        isAvailable: true,
+      },
+      {
+        roomName: "MR.7Y",
+        capacity: 4,
+        cost: 20,
+        isAvailable: false,
+      },
+      {
+        roomName: "MR.8Y",
+        capacity: 8,
+        cost: 35,
+        isAvailable: false,
+      },
+      {
+        roomName: "MR.9Y",
+        capacity: 16,
+        cost: 65,
+        isAvailable: true,
+      },
+      {
+        roomName: "MR.10Y",
+        capacity: 6,
+        cost: 30,
+        isAvailable: true,
+      },
+      {
+        roomName: "MR.11Y",
+        capacity: 12,
+        cost: 50,
+        isAvailable: false,
+      },
+      {
+        roomName: "MR.12Y",
+        capacity: 24,
+        cost: 90,
+        isAvailable: true,
+      },
+      {
+        roomName: "MR.13Y",
+        capacity: 8,
+        cost: 35,
+        isAvailable: false,
+      },
+      {
+        roomName: "MR.14Y",
+        capacity: 14,
+        cost: 55,
+        isAvailable: true,
+      },
+      {
+        roomName: "MR.15Y",
+        capacity: 18,
+        cost: 70,
+        isAvailable: false,
+      },
+      {
+        roomName: "MR.16Y",
+        capacity: 4,
+        cost: 20,
+        isAvailable: true,
+      },
+      {
+        roomName: "MR.17Y",
+        capacity: 10,
+        cost: 45,
+        isAvailable: true,
+      },
+      {
+        roomName: "MR.18Y",
+        capacity: 30,
+        cost: 100,
+        isAvailable: true,
+      },
+      {
+        roomName: "MR.19Y",
+        capacity: 8,
+        cost: 35,
+        isAvailable: false,
+      },
+    ];
 
     // First transaction: Seed buildings
-    await db.transaction((tx) => {
+    db.transaction((tx) => {
       // Clear existing buildings data
       tx.delete(buildings).run();
       console.log("Cleared existing buildings data");
@@ -212,7 +341,7 @@ async function seed() {
     });
 
     // Second transaction: Seed customer data
-    await db.transaction((tx) => {
+    db.transaction((tx) => {
       // Clear existing customer data
       tx.delete(customerForce).run();
       console.log("Cleared existing customer data");
@@ -220,6 +349,19 @@ async function seed() {
       // Insert all customer records in one batch
       tx.insert(customerForce).values(customerData).run();
       console.log(`Added ${customerData.length} customer records`);
+    });
+
+    // Third transaction: Seed availability force data
+    db.transaction((tx) => {
+      // Clear existing availability force data
+      tx.delete(availabilityForce).run();
+      console.log("Cleared existing availability force data");
+
+      // Insert all availability force records in one batch
+      tx.insert(availabilityForce).values(availabilityData).run();
+      console.log(
+        `Added ${availabilityData.length} availability force records`
+      );
     });
 
     console.log("Seed completed successfully");

@@ -38,8 +38,27 @@ export const customerForce = sqliteTable("customer_force", {
     .$defaultFn(() => new Date()),
 });
 
+export const availabilityForce = sqliteTable("availability_force", {
+  id: integer("id").primaryKey({ autoIncrement: true }).unique().notNull(),
+  roomName: text("room_name").notNull(),
+  capacity: integer("capacity").notNull(),
+  cost: integer("cost").notNull(),
+  isAvailable: integer("is_available", { mode: "boolean" })
+    .notNull()
+    .default(true),
+  createdAt: integer("created_at", { mode: "timestamp" })
+    .notNull()
+    .$defaultFn(() => new Date()),
+  updatedAt: integer("updated_at", { mode: "timestamp" })
+    .notNull()
+    .$defaultFn(() => new Date()),
+});
+
 export type Buildings = typeof buildings.$inferSelect;
 export type NewBuildings = typeof buildings.$inferInsert;
 
 export type CustomerForce = typeof customerForce.$inferSelect;
 export type NewCustomerForce = typeof customerForce.$inferInsert;
+
+export type AvailabilityForce = typeof availabilityForce.$inferSelect;
+export type NewAvailabilityForce = typeof availabilityForce.$inferInsert;
